@@ -3,13 +3,16 @@
         <nav id="fullPageMenu" class="container-fluid">
             <topMenu :menu="menu"></topMenu>
         </nav>
-        <leftMenu></leftMenu>
+        <leftMenu :menu="menu"></leftMenu>
         <full-page class="fullpage" :options="options" ref="page">
             <!-- 第一屏 -->
             <div class="section">
-                <slid1 :page="page" :active="active" @getPre="getPre" />
+                <slid1 :page="page" :active="active" />
             </div>
-            <div class="section">2</div>
+            <!-- 第二屏 -->
+            <div class="section">
+                <slid2 :page="page"></slid2>
+            </div>
             <div class="section">3</div>
             <div class="section">4</div>
             <div class="section">5</div>
@@ -22,12 +25,14 @@
 import "@/assets/css/fullpage.min.css";
 import { Bus } from "../../main";
 import slid1 from "../slid/slid1";
+import slid2 from "../slid/slid2";
 import topMenu from "../menu/topMenu";
-import leftMenu from "../menu/leftMenu"
+import leftMenu from "../menu/leftMenu";
     export default {
         name: "home",
         components: {
             slid1,
+            slid2,
             topMenu,
             leftMenu
         },
@@ -66,6 +71,12 @@ import leftMenu from "../menu/leftMenu"
                         woman: require("../../assets/imgs/index3.png"),
                         downBtn: require("../../assets/imgs/index_down.png")
                     },
+                    {
+                        img1: require("../../assets/imgs/Product1.png"),
+                        img2: require("../../assets/imgs/Product2.png"),
+                        img3: require("../../assets/imgs/Product3.png"),
+                        img4: require("../../assets/imgs/Product4.png"),
+                    },
                 ],
                 options: {
                     css3:true,
@@ -75,8 +86,7 @@ import leftMenu from "../menu/leftMenu"
                     afterRender: this.afterRender,
                     scrollOverflow: true,
                     slidesNavigation: false,
-                    navigation: true,//是否显示导航，默认为false
-                    navigationPosition: 'right',//导航小圆点的位置
+                    navigation: false,//是否显示导航，默认为false
                     scrollBar: false,
                     keyboardScrolling: false,//是否可以使用键盘方向键导航，默认为true
                     continuousVertical: false, /// 是否循环滚动，默认为false。如果设置为true，则页面会循环滚动，而不像loopTop或loopBottom那样出现跳动，注意这个属性和loopTop、loopBottom不兼容和，不要同时设置

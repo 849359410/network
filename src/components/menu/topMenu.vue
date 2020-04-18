@@ -11,7 +11,7 @@
         <div class="wapNav">
             <ul>
                 <li v-for="(item, index) of menu[1]" :key="index" :data-menuanchor="item.dataMenuanchor">
-                    <a @click="moveTo" :href="item.href" :style="item.style">{{ item.value }}</a>
+                    <a :href="item.href" :style="item.style">{{ item.value }}</a>
                 </li>
             </ul>
         </div>
@@ -45,11 +45,6 @@ export default {
             immediate: true
         }
     },
-    methods: {
-        moveTo() {
-            moveTo(this.menu[1].dataMenuanchor)
-        }
-    }
 }
 
 </script>

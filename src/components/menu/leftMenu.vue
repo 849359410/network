@@ -1,7 +1,7 @@
 <template>
     <div class="myMenu">
         <ul>
-            <li v-for="(item, index) of menu[2]" :key="index" :data-menuanchor="item.dataMenuanchor">
+            <li v-for="(item, index) in menu[2]" :key="index" :data-menuanchor="item.dataMenuanchor">
                 <a :href="item.href">{{ item.value }}</a>
             </li>
         </ul>
@@ -21,8 +21,18 @@ export default {
             }
         }
     },
+    watch: {
+        menu: {
+            handler(val) {
+                console.log(val)
+            }
+        }
+    },
     created() {
         Bus.$emit("loction")
+    },
+    methods: {
+
     }
 }
 </script>
@@ -35,7 +45,6 @@ export default {
         z-index: 100;
         font-size: 12px;
         color: #1753d6;
-        display: none;
         ul {
             list-style: none;
             li a {
