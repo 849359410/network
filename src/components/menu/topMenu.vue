@@ -34,7 +34,13 @@ export default {
             default() {
                 return [];
             }
-        }
+        },
+	    colorClass: {
+        	type: String,
+		    default() {
+        		return "";
+		    }
+	    }
     },
     watch: {
         menu: {
@@ -43,8 +49,11 @@ export default {
             },
             deep: true,
             immediate: true
-        }
-    },
+        },
+	    colorClass(n) {
+        	console.log(n);
+	    }
+    }
 }
 
 </script>

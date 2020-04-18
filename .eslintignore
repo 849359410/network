@@ -1,0 +1,6 @@
+.idea/
+node_modules/
+/oop-a/
+/package-lock.json
+/oop-a.iml
+src/*

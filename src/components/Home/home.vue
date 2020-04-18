@@ -1,26 +1,3 @@
-<template>
-    <div>
-        <nav id="fullPageMenu" class="container-fluid">
-            <topMenu :menu="menu"></topMenu>
-        </nav>
-        <leftMenu :menu="menu"></leftMenu>
-        <full-page class="fullpage" :options="options" ref="page">
-            <!-- 第一屏 -->
-            <div class="section">
-                <slid1 :page="page" :active="active" />
-            </div>
-            <!-- 第二屏 -->
-            <div class="section">
-                <slid2 :page="page"></slid2>
-            </div>
-            <div class="section">3</div>
-            <div class="section">4</div>
-            <div class="section">5</div>
-            <div class="section">6</div>
-        </full-page>
-    </div>
-</template>
-
 <script>
 import "@/assets/css/fullpage.min.css";
 import { Bus } from "../../main";
@@ -96,9 +73,27 @@ import leftMenu from "../menu/leftMenu";
                 },
                 timer: null,
                 active: 1,
-                url: window.location.href
+                url: window.location.href,
+	            section: [
+		            { page: 1, class: 'bgWhite' },
+		            { page: 2, class: 'bgWhite' },
+		            { page: 3, class: 'bgBlue' },
+		            { page: 4, class: 'bgWhite' },
+		            { page: 5, class: 'bgBlue' },
+		            { page: 6, class: 'bgWhite' }
+	            ],
+	            urlHref: "1",
+	            colorClass: ""
             }
         },
+		watch: {
+        	$route: {
+				handler(n) {
+					console.log("n", n);
+				},
+		        deep: true
+	        }
+		},
         mounted() {
             Bus.$on("getPre", (i) => {
                 this.getPre(i)
@@ -110,6 +105,12 @@ import leftMenu from "../menu/leftMenu";
                 this.pageDown()
             })
         },
+		created() {
+        	// console.log(window.location)
+			window.onhashchange = (e) => {
+				this.urlHref = e.newURL.split("#")[1];
+			}
+		},
         methods: {
             afterLoad (link, index) {
                 if(index.index) {
@@ -141,6 +142,39 @@ import leftMenu from "../menu/leftMenu";
                 this.$refs.page.api.moveSectionDown();
             },
         },
+	    render(createElement) {
+		    return (
+		        <div>
+			        <nav id="fullPageMenu" class="container-fluid">
+				        <top-menu menu={this.menu} colorClass={this.colorClass}></top-menu>
+				    </nav>
+			        <left-menu></left-menu>
+				    <full-page class="fullpage" options={this.options} ref="page">
+					    {
+					    	this.section.map(i => {
+					    		if (i.page === Number(this.urlHref)) {
+					    			this.colorClass = i.class;
+								    return (
+									    <div class="section">
+										    {
+											    createElement(`slid${i.page}`, {
+												    props: {
+													    page: this.page,
+													    active: this.active
+												    }
+											    })
+										    }
+									    </div>
+								    )
+							    } else {
+								    return <div class="section">{i.id}</div>;
+							    }
+						    })
+					    }
+				    </full-page>
+			    </div>
+	        )
+	    }
     }
 </script>
 
