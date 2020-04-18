@@ -56,12 +56,6 @@ import leftMenu from "../menu/leftMenu";
                         woman: require("../../assets/imgs/index3.png"),
                         downBtn: require("../../assets/imgs/index_down.png")
                     },
-                    {
-                        img1: require("../../assets/imgs/Product1.png"),
-                        img2: require("../../assets/imgs/Product2.png"),
-                        img3: require("../../assets/imgs/Product3.png"),
-                        img4: require("../../assets/imgs/Product4.png"),
-                    },
                 ],
                 options: {
                     css3:true,
@@ -70,19 +64,13 @@ import leftMenu from "../menu/leftMenu";
                     afterLoad: this.afterLoad,
                     afterRender: this.afterRender,
                     scrollOverflow: true,
-                    slidesNavigation: false,
-                    navigation: false,//是否显示导航，默认为false
-                    scrollBar: false,
-                    keyboardScrolling: false,//是否可以使用键盘方向键导航，默认为true
-                    continuousVertical: false, /// 是否循环滚动，默认为false。如果设置为true，则页面会循环滚动，而不像loopTop或loopBottom那样出现跳动，注意这个属性和loopTop、loopBottom不兼容和，不要同时设置
                     menu: '#fullPageMenu',
                     anchors: ['1','2','3','4','5', '6'],
                     // sectionsColor: ['#41b883', '#ff5f45', '#0798ec', '#fec401', '#1bcee6', '#ee1a59'],
                 },
                 timer: null,
                 active: 1,
-                url: window.location.href,
-	            urlHref: "1"
+                url: window.location.href
             }
         },
         mounted() {

@@ -20,8 +20,12 @@
             </div>
             <!--版心.-->
             <div class="second_screen_mian">
-                <div class="slide" v-for="(item, index) in page[1]" :key="index">
-                    <img :src="item.img1" alt="">
+                <div
+                    class="slide"
+                    v-for="(item, index) in slid"
+                    :key="index"
+                >
+                    <img :src="item.img" :datagroup="item.img1" alt="" />
                 </div>
             </div>
             <div class="threeBottomTxt">
@@ -45,132 +49,125 @@
 <script>
 export default {
     name: "slid2",
-    props: {
-        page: {
-            type: Array,
-            default() {
-                return [];
-            }
-        },
+    data() {
+        return {
+            slid: [
+                {
+                    img: require("../../assets/imgs/Product1.png")
+                },{
+                    img: require("../../assets/imgs/Product2.png")
+                },{
+                    img: require("../../assets/imgs/Product3.png")
+                },{
+                    img: require("../../assets/imgs/Product4.png")
+                }
+
+            ]
+        }
     },
-    watch: {
-       page: {
-           handler(val){
-               console.log(val)
-           },
-           deep:true
-       }
-    }
 }
 </script>
 
-<style>
-    .second_screen {
-        height: 100%;
-        width: 100%;
-        background: url("../../assets/imgs/service_bg .png") no-repeat;
-        background-size: cover;
+<style lang="scss">
+.second_screen {
+    height: 100%;
+    width: 100%;
+    background: url("../../assets/imgs/service_bg .png") no-repeat;
+    background-size: cover;
+    ul {
+        list-style: none;
+    }
+    .fp-slides {
+        height: 120%!important;
     }
     .two_content {
         max-width: 1600px;
         margin: 0 auto;
+        .topText {
+            width: 100%;
+            padding-top: 130px;
+            text-align: center;
+            border: none;
+            h3 {
+                font-size: 28px;
+                color: #ffffff;
+                margin: 0;
+            }
+            span {
+                display: block;
+                font-size: 18px;
+                color: #ffffff;
+                margin-top: 14px;
+                margin-bottom: 18px;
+            }
+        }
+        .second_screen_carousel {
+            margin: 0 auto;
+            cursor: pointer;
+            z-index: 9999;
+            ul {
+                display: flex;
+                justify-content: center;
+                margin-top: 30px;
+            }
+            li {
+                width: 100px;
+                height: 100px;
+                border-radius: 100%;
+                margin: 0 54px;
+            }
+            .pager1 {
+                background: url("../../assets/imgs/pager1.png") center;
+            }
+            .pager2 {
+                background: url("../../assets/imgs/pager2.png") center;
+            }
+            .pager3 {
+                background: url("../../assets/imgs/pager3.png") center;
+            }
+            .pager4{
+                background: url("../../assets/imgs/pager4.png") center;
+            }
+            .pager5 {
+                background: url("../../assets/imgs/pager5.png") center;
+            }
+            .pager6 {
+                background: url("../../assets/imgs/pager6.png") center;
+            }
+            .pager7 {
+                background: url("../../assets/imgs/pager7.png") center;
+            }
+            .pager8 {
+                background: url("../../assets/imgs/pager8.png") center;
+            }
+        }
+        .second_screen_mian {
+            max-width: 1600px;
+            max-height: 500px;
+            overflow: hidden;
+            margin: 0 auto;
+            cursor: pointer;
+            .fp-prev,.fp-next {
+                position: absolute;
+                top: 50%;
+                border-color: transparent!important;
+            }
+            .fp-prev {
+                background: url("../../assets/imgs/bt_prev.png") no-repeat left;
+                left: 6%!important;
+            }
+            .fp-next {
+                background: url("../../assets/imgs/bt_next.png") no-repeat right;
+                right: 6%!important;
+            }
+        }
+        .threeBottomTxt {
+            font-size: 16px;
+            color: #ffffff;
+            text-align: center;
+        }
     }
-    /* 顶部文案 */
-    .topText {
-        width: 100%;
-        padding-top: 130px;
-        text-align: center;
-        border: none;
-    }
+}
 
-    .topText > h3 {
-        font-size: 28px;
-        color: #ffffff;
-        margin: 0;
-    }
-
-    .topText > span {
-        display: block;
-        font-size: 18px;
-        color: #ffffff;
-        margin-top: 14px;
-        margin-bottom: 18px;
-    }
-
-    /* 显示屏 */
-    .second_screen_mian {
-        max-width: 1600px;
-        max-height: 500px;
-        overflow: hidden;
-        margin: 0 auto;
-        cursor: pointer;
-    }
-    .second_screen_carousel {
-        margin: 0 auto;
-        cursor: pointer;
-        z-index: 9999;
-    }
-    .second_screen_carousel ul {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-    }
-    ul {
-        list-style: none;
-    }
-    .second_screen_carousel li {
-        width: 100px;
-        height: 100px;
-        border-radius: 100%;
-        margin: 0 54px;
-    }
-
-    .pager1 {
-        background: url("../../assets/imgs/pager1.png") center;
-    }
-    .pager2 {
-        background: url("../../assets/imgs/pager2.png") center;
-    }
-    .pager3 {
-        background: url("../../assets/imgs/pager3.png") center;
-    }
-    .pager4{
-        background: url("../../assets/imgs/pager4.png") center;
-    }
-    .pager5 {
-        background: url("../../assets/imgs/pager5.png") center;
-    }
-    .pager6 {
-        background: url("../../assets/imgs/pager6.png") center;
-    }
-    .pager7 {
-        background: url("../../assets/imgs/pager7.png") center;
-    }
-    .pager8 {
-        background: url("../../assets/imgs/pager8.png") center;
-    }
-
-    /* 底部文字 */
-    .threeBottomTxt {
-        font-size: 16px;
-        color: #ffffff;
-        text-align: center;
-    }
-    .second_screen .fp-slides {
-        height: 120%!important;
-    }
-    .fp-prev,.fp-next {
-        position: absolute;
-        top: 50%;
-        border-color: transparent!important;
-    }
-    .fp-prev {
-        background: url("../../assets/imgs/bt_prev.png") no-repeat left;
-        left: 6%!important;
-    }
-    .fp-next {
-        background: url("../../assets/imgs/bt_next.png") no-repeat right;
-        right: 6%!important;
-    }
 
 </style>
