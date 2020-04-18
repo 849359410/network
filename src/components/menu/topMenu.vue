@@ -11,7 +11,7 @@
         <div class="wapNav">
             <ul>
                 <li v-for="(item, index) of menu[1]" :key="index" :data-menuanchor="item.dataMenuanchor">
-                    <a @click="moveTo" :href="item.href" :style="item.style">{{ item.value }}</a>
+                    <a :href="item.href" :style="item.style">{{ item.value }}</a>
                 </li>
             </ul>
         </div>
@@ -34,7 +34,13 @@ export default {
             default() {
                 return [];
             }
-        }
+        },
+	    colorClass: {
+        	type: String,
+		    default() {
+        		return "";
+		    }
+	    }
     },
     watch: {
         menu: {
@@ -43,12 +49,10 @@ export default {
             },
             deep: true,
             immediate: true
-        }
-    },
-    methods: {
-        moveTo() {
-            moveTo(this.menu[1].dataMenuanchor)
-        }
+        },
+	    colorClass(n) {
+        	console.log(n);
+	    }
     }
 }
 
