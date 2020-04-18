@@ -3,6 +3,10 @@ import "@/assets/css/fullpage.min.css";
 import { Bus } from "../../main";
 import slid1 from "../slid/slid1";
 import slid2 from "../slid/slid2";
+import slid3 from "../slid/slid3";
+import slid4 from "../slid/slid4";
+import slid5 from "../slid/slid5";
+import slid6 from "../slid/slid6";
 import topMenu from "../menu/topMenu";
 import leftMenu from "../menu/leftMenu";
     export default {
@@ -10,6 +14,10 @@ import leftMenu from "../menu/leftMenu";
         components: {
             slid1,
             slid2,
+            slid3,
+            slid4,
+            slid5,
+            slid6,
             topMenu,
             leftMenu
         },
@@ -74,26 +82,9 @@ import leftMenu from "../menu/leftMenu";
                 timer: null,
                 active: 1,
                 url: window.location.href,
-	            section: [
-		            { page: 1, class: 'bgWhite' },
-		            { page: 2, class: 'bgWhite' },
-		            { page: 3, class: 'bgBlue' },
-		            { page: 4, class: 'bgWhite' },
-		            { page: 5, class: 'bgBlue' },
-		            { page: 6, class: 'bgWhite' }
-	            ],
-	            urlHref: "1",
-	            colorClass: ""
+	            urlHref: "1"
             }
         },
-		watch: {
-        	$route: {
-				handler(n) {
-					console.log("n", n);
-				},
-		        deep: true
-	        }
-		},
         mounted() {
             Bus.$on("getPre", (i) => {
                 this.getPre(i)
@@ -105,12 +96,6 @@ import leftMenu from "../menu/leftMenu";
                 this.pageDown()
             })
         },
-		created() {
-        	// console.log(window.location)
-			window.onhashchange = (e) => {
-				this.urlHref = e.newURL.split("#")[1];
-			}
-		},
         methods: {
             afterLoad (link, index) {
                 if(index.index) {
@@ -146,29 +131,24 @@ import leftMenu from "../menu/leftMenu";
 		    return (
 		        <div>
 			        <nav id="fullPageMenu" class="container-fluid">
-				        <top-menu menu={this.menu} colorClass={this.colorClass}></top-menu>
+				        <top-menu menu={this.menu}></top-menu>
 				    </nav>
-			        <left-menu></left-menu>
+			        <left-menu menu={this.menu}></left-menu>
 				    <full-page class="fullpage" options={this.options} ref="page">
 					    {
-					    	this.section.map(i => {
-					    		if (i.page === Number(this.urlHref)) {
-					    			this.colorClass = i.class;
-								    return (
-									    <div class="section">
-										    {
-											    createElement(`slid${i.page}`, {
-												    props: {
-													    page: this.page,
-													    active: this.active
-												    }
-											    })
-										    }
-									    </div>
-								    )
-							    } else {
-								    return <div class="section">{i.id}</div>;
-							    }
+						    this.options.anchors.map(i => {
+						        return (
+						            <div class="section">
+						                {
+						                    createElement(`slid${i}`, {
+						                        props: {
+						                            page: this.page,
+						                            active: this.active
+						                        }
+						                    })
+						                }
+						            </div>
+						        )
 						    })
 					    }
 				    </full-page>

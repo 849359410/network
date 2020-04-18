@@ -1,5 +1,5 @@
 <template>
-    <div class="navWidth">
+    <div class="navWidth" :class="returnClass(urlHref)">
         <div class="logoType">
             <div class="nav_logo">
                 <a href="">
@@ -34,14 +34,13 @@ export default {
             default() {
                 return [];
             }
-        },
-	    colorClass: {
-        	type: String,
-		    default() {
-        		return "";
-		    }
-	    }
+        }
     },
+	data() {
+    	return {
+		    urlHref: 1
+	    }
+	},
     watch: {
         menu: {
             handler(val) {
@@ -49,11 +48,20 @@ export default {
             },
             deep: true,
             immediate: true
-        },
-	    colorClass(n) {
-        	console.log(n);
-	    }
-    }
+        }
+    },
+	created() {
+		window.onhashchange = (e) => {
+			this.urlHref = Number(e.newURL.split("#")[1]);
+		}
+	},
+	methods: {
+		returnClass(page) {
+			let white = [1, 2, 4, 6];
+			if (white.some(i => i === page)) return "colorWhite";
+			else return "colorBlue";
+		}
+	}
 }
 
 </script>
