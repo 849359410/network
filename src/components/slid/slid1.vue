@@ -1,16 +1,16 @@
 <template>
     <div class="box1">
         <video :src="page[0].video" muted="muted" autoplay="autoplay" loop="loop" data-keepplaying></video>
-        <div class="slide">
+        <div class="slide animated zoomIn">
             <img class="img1" :src="page[0].img1" alt="">
         </div>
         <div class="slide">
             <img class="img2" :src="page[0].img2"  alt=""/>
             <div>
-                <a class="btn1" href="javascript:;">
+                <a class="btn1" href="javascript:;" @click="down()">
                     <img :src="page[0].btn1" alt="">
                 </a>
-                <a class="btn2" href="javascript:;">
+                <a class="btn2" href="javascript:;" @click="Bounce()">
                     <img :src="page[0].btn2" alt="">
                 </a>
             </div>
@@ -54,6 +54,12 @@ export default {
         },
         pageDown() {
             Bus.$emit("pageDown");
+        },
+        down() {
+            Bus.$emit("down")
+        },
+        Bounce() {
+            window.open("https://eg00000.com/","width = 1000", "height = 800");
         }
     }
 

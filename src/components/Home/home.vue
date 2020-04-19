@@ -1,5 +1,6 @@
 <script>
 import "@/assets/css/fullpage.min.css";
+import "@/assets/animate.css";
 import { Bus } from "../../main";
 import slid1 from "../slid/slid1";
 import slid2 from "../slid/slid2";
@@ -25,7 +26,8 @@ import leftMenu from "../menu/leftMenu";
             return {
                 menu:[
                     {
-                        img1: require("../../assets/imgs/logo.png")
+                        img1: require("../../assets/imgs/logo.png"),
+                        img2: require("../../assets/imgs/logo2.png")
                     },
                     //顶部导航栏
                     [
@@ -38,12 +40,12 @@ import leftMenu from "../menu/leftMenu";
                     ],
                     //左侧导航栏
                     [
-                        {dataMenuanchor: 1, href: "#1", style: "color: #fff", value: "首页"},
-                        {dataMenuanchor: 2, href: "#2", style: "color: #fff", value: "产品"},
-                        {dataMenuanchor: 3, href: "#3", style: "color: #fff", value: "特色"},
-                        {dataMenuanchor: 4, href: "#4", style: "color: #fff", value: "服务"},
-                        {dataMenuanchor: 5, href: "#5", style: "color: #fff", value: "合作"},
-                        {dataMenuanchor: 6, href: "#6", style: "color: #fff", value: "联系"},
+                        {dataMenuanchor: 1, href: "#1", value: "首页"},
+                        {dataMenuanchor: 2, href: "#2", value: "产品"},
+                        {dataMenuanchor: 3, href: "#3", value: "特色"},
+                        {dataMenuanchor: 4, href: "#4", value: "服务"},
+                        {dataMenuanchor: 5, href: "#5", value: "合作"},
+                        {dataMenuanchor: 6, href: "#6", value: "联系"},
                     ],
                 ],
                 page: [
@@ -54,19 +56,25 @@ import leftMenu from "../menu/leftMenu";
                         btn1: require("../../assets/imgs/index4.png"),
                         btn2: require("../../assets/imgs/index5.png"),
                         woman: require("../../assets/imgs/index3.png"),
-                        downBtn: require("../../assets/imgs/index_down.png")
+                        downBtn: require("../../assets/imgs/index_down.png"),
+                        zoomIn:"animated zoomIn",
+                        fadeInUp:"animated fadeInUp",
+                        fadeInLeft: "animated fadeInLeft",
                     },
                 ],
                 options: {
-                    css3:true,
+                    css3:false,
                     licenseKey: 'OPEN-SOURCE-GPLV3-LICENSE',
                     loopHorizontal: true,
                     afterLoad: this.afterLoad,
+                    onLeave: this.onLeave,
                     afterRender: this.afterRender,
                     scrollOverflow: true,
+                    verticalCentered:true,
                     menu: '#fullPageMenu',
                     anchors: ['1','2','3','4','5', '6'],
                     // sectionsColor: ['#41b883', '#ff5f45', '#0798ec', '#fec401', '#1bcee6', '#ee1a59'],
+                    normalScrollElements:''
                 },
                 timer: null,
                 active: 1,
@@ -82,6 +90,21 @@ import leftMenu from "../menu/leftMenu";
             });
             Bus.$on("pageDown", () => {
                 this.pageDown()
+            });
+            Bus.$on("changeImg", i => {
+                this.changeImg(i)
+            });
+            Bus.$on("stopSm", i => {
+                this.stopsm()
+            });
+            Bus.$on("startSm", i=> {
+                this.startSm()
+            });
+            Bus.$on("slid3", i => {
+                this.slid3(i)
+            });
+            Bus.$on("down", i => {
+                this.down()
             })
         },
         methods: {
@@ -90,14 +113,13 @@ import leftMenu from "../menu/leftMenu";
                     clearInterval(this.timer);
                     this.timer = setInterval(() => {
                         this.$refs.page.api.moveSlideRight();
-                    }, 600000);
+                    }, 3000);
                 }
             },
             afterRender () {
-                clearInterval(this.timer);
                 this.timer = setInterval(() => {
                     this.$refs.page.api.moveSlideRight();
-                }, 6000000);
+                }, 3000);
             },
             getPre (i) {
                 if(i === 2) {
@@ -114,6 +136,24 @@ import leftMenu from "../menu/leftMenu";
             pageDown () {
                 this.$refs.page.api.moveSectionDown();
             },
+            changeImg (i) {
+                this.$refs.page.api.moveTo(2, i);
+            },
+            slid3(i) {
+                this.$refs.page.api.moveTo(3, i);
+                console.log("i",i)
+            },
+            stopsm() {
+                clearInterval(this.timer);
+            },
+            startSm() {
+                this.timer = setInterval(() => {
+                    this.$refs.page.api.moveSlideRight();
+                }, 3000);
+            },
+            down() {
+                this.$refs.page.api.moveTo(6, 1)
+            }
         },
 	    render(createElement) {
 		    return (
@@ -142,7 +182,7 @@ import leftMenu from "../menu/leftMenu";
 				    </full-page>
 			    </div>
 	        )
-	    }
+	    },
     }
 </script>
 
