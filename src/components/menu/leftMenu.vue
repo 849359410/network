@@ -14,16 +14,17 @@ import {Bus} from "@/main";
 export default {
     name: "leftMenu",
     props: {
+	    urlHref: {
+		    type: Number,
+		    default() {
+			    return 1;
+		    }
+	    },
         menu: {
             type: Array,
             default() {
                 return [];
             }
-        }
-    },
-    data() {
-        return {
-            urlHref: 1
         }
     },
     watch: {
@@ -35,9 +36,6 @@ export default {
     },
     created() {
         Bus.$emit("loction");
-        window.onhashchange = (e) => {
-            this.urlHref = Number(e.newURL.split("#")[1]);
-        }
     },
     methods: {
         returnClass(page) {

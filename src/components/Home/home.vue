@@ -78,7 +78,8 @@ import leftMenu from "../menu/leftMenu";
                 },
                 timer: null,
                 active: 1,
-                url: window.location.href
+                url: window.location.href,
+	            urlHref: 1
             }
         },
         mounted() {
@@ -97,7 +98,7 @@ import leftMenu from "../menu/leftMenu";
             Bus.$on("stopSm", i => {
                 this.stopsm()
             });
-            Bus.$on("startSm", i=> {
+            Bus.$on("startSm", i => {
                 this.startSm()
             });
             Bus.$on("slid3", i => {
@@ -107,6 +108,14 @@ import leftMenu from "../menu/leftMenu";
                 this.down()
             })
         },
+	    created() {
+		    this.urlHref = Number(window.location.href.split("#")[1]);
+        	window.onload = () => {
+		        window.onhashchange = (e) => {
+			        this.urlHref = Number(e.newURL.split("#")[1]);
+		        };
+	        }
+	    },
         methods: {
             afterLoad (link, index) {
                 if(index.index) {
@@ -159,9 +168,9 @@ import leftMenu from "../menu/leftMenu";
 		    return (
 		        <div>
 			        <nav id="fullPageMenu" class="container-fluid">
-				        <top-menu menu={this.menu}></top-menu>
+				        <top-menu menu={this.menu} urlHref={this.urlHref}></top-menu>
 				    </nav>
-			        <left-menu menu={this.menu}></left-menu>
+			        <left-menu menu={this.menu} urlHref={this.urlHref}></left-menu>
 				    <full-page class="fullpage" options={this.options} ref="page">
 					    {
 						    this.options.anchors.map(i => {

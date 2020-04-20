@@ -23,10 +23,10 @@
 export default {
     name: "topMenu",
     props: {
-        page: {
-            type: Array,
+	    urlHref: {
+            type: Number,
             default() {
-                return [];
+                return 1;
             }
         },
         menu: {
@@ -36,11 +36,6 @@ export default {
             }
         }
     },
-	data() {
-    	return {
-		    urlHref: 1
-	    }
-	},
     watch: {
         menu: {
             handler(val) {
@@ -50,11 +45,6 @@ export default {
             immediate: true
         }
     },
-	created() {
-		window.onhashchange = (e) => {
-			this.urlHref = Number(e.newURL.split("#")[1]);
-		}
-	},
 	methods: {
 		returnClass(page) {
 			let white = [1, 2, 4, 6];
