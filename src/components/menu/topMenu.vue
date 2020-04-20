@@ -1,17 +1,17 @@
 <template>
-    <div class="navWidth" :class="returnClass(urlHref)">
+    <div class="navWidth">
         <div class="logoType">
             <div class="nav_logo">
                 <a href="">
-                    <img :src="menu[0].img1" alt="">
+                    <img :src="this.Switch === 0 ? menu[0].img1 : menu[0].img2" alt="">
                 </a>
-                <span>彩票包网 赢在EG</span>
+                <span :class="returnClass(urlHref)">彩票包网 赢在EG</span>
             </div>
         </div>
-        <div class="wapNav">
+        <div class="wapNav" >
             <ul>
                 <li v-for="(item, index) of menu[1]" :key="index" :data-menuanchor="item.dataMenuanchor">
-                    <a :href="item.href" :style="item.style">{{ item.value }}</a>
+                    <a :href="item.href" :class="returnClass(urlHref)">{{ item.value }}</a>
                 </li>
             </ul>
         </div>
@@ -34,13 +34,19 @@ export default {
             default() {
                 return [];
             }
+        },
+        urlHref: {
+            type: [Number, String],
+            default() {
+                return [];
+            }
         }
     },
-	data() {
-    	return {
-		    urlHref: 1
-	    }
-	},
+    data() {
+      return {
+          Switch: 0
+      }
+    },
     watch: {
         menu: {
             handler(val) {
@@ -50,16 +56,16 @@ export default {
             immediate: true
         }
     },
-	created() {
-		window.onhashchange = (e) => {
-			this.urlHref = Number(e.newURL.split("#")[1]);
-		}
-	},
 	methods: {
 		returnClass(page) {
 			let white = [1, 2, 4, 6];
-			if (white.some(i => i === page)) return "colorWhite";
-			else return "colorBlue";
+			if (white.some(i => i === page)){
+                this.Switch = 0;
+                return "colorWhite";
+            } else {
+                this.Switch = 1;
+                return "colorBlue";
+            }
 		}
 	}
 }
@@ -71,6 +77,7 @@ export default {
         text-decoration:none
     }
     #fullPageMenu {
+        color: #fff;
         position: absolute;
         top: 0;
         width: 100%;
@@ -84,7 +91,7 @@ export default {
             li {
                 font-size: 20px;
                 margin: 0 20px;
-                color: #fff;
+                color: red;
             }
             li:hover {
                 font-weight: 800;
@@ -96,11 +103,17 @@ export default {
             display: flex;
             justify-content: center;
             margin: 10px auto;
+
             .logoType {
-                color: #fff;
                 padding-top: 6px;
                 font-size: 18px;
             }
+        }
+        .colorBlue {
+            color: rgb(63, 134, 233);
+        }
+        .colorWhite {
+            color: #fff
         }
     }
 
@@ -115,4 +128,5 @@ export default {
     nav .active {
         font-weight: 800;
     }
+
 </style>

@@ -1,6 +1,7 @@
 <script>
 import "@/assets/css/fullpage.min.css";
 import "@/assets/animate.css";
+import mix from "../../mixins/mix";
 import { Bus } from "../../main";
 import slid1 from "../slid/slid1";
 import slid2 from "../slid/slid2";
@@ -10,8 +11,11 @@ import slid5 from "../slid/slid5";
 import slid6 from "../slid/slid6";
 import topMenu from "../menu/topMenu";
 import leftMenu from "../menu/leftMenu";
+import fluidVue from "../menu/fluid";
+import waitingToLoad from "../menu/waitingToload"
     export default {
         name: "home",
+        mixins: [mix],
         components: {
             slid1,
             slid2,
@@ -20,7 +24,9 @@ import leftMenu from "../menu/leftMenu";
             slid5,
             slid6,
             topMenu,
-            leftMenu
+            leftMenu,
+            fluidVue,
+            waitingToLoad
         },
         data() {
             return {
@@ -74,11 +80,12 @@ import leftMenu from "../menu/leftMenu";
                     menu: '#fullPageMenu',
                     anchors: ['1','2','3','4','5', '6'],
                     // sectionsColor: ['#41b883', '#ff5f45', '#0798ec', '#fec401', '#1bcee6', '#ee1a59'],
-                    normalScrollElements:''
+                    normalScrollElements:'',
                 },
                 timer: null,
                 active: 1,
-                url: window.location.href
+                url: window.location.href,
+	            urlHref: 1,
             }
         },
         mounted() {
@@ -97,7 +104,7 @@ import leftMenu from "../menu/leftMenu";
             Bus.$on("stopSm", i => {
                 this.stopsm()
             });
-            Bus.$on("startSm", i=> {
+            Bus.$on("startSm", i => {
                 this.startSm()
             });
             Bus.$on("slid3", i => {
@@ -109,17 +116,26 @@ import leftMenu from "../menu/leftMenu";
         },
         methods: {
             afterLoad (link, index) {
-                if(index.index) {
+                let arr = [1, 2, 3];
+                console.log(index.anchor);
+                if (Number(index.anchor) === 1) {
+                    console.log(this.$refs);
+                }
+                if(arr.some(i => i === Number(index.anchor))) {
                     clearInterval(this.timer);
                     this.timer = setInterval(() => {
                         this.$refs.page.api.moveSlideRight();
                     }, 3000);
                 }
             },
-            afterRender () {
-                this.timer = setInterval(() => {
-                    this.$refs.page.api.moveSlideRight();
-                }, 3000);
+            onLeave(index, nextIndex, direction) {
+                let arr = [1, 2, 3];
+                clearInterval(this.timer);
+                this.timer = null;
+                //水平轮播固定第一页
+                if(arr.some(i => i === Number(index.anchor))) {
+                    this.$refs.page.api.moveTo(Number(index.anchor), 0);
+                }
             },
             getPre (i) {
                 if(i === 2) {
@@ -141,12 +157,13 @@ import leftMenu from "../menu/leftMenu";
             },
             slid3(i) {
                 this.$refs.page.api.moveTo(3, i);
-                console.log("i",i)
             },
             stopsm() {
                 clearInterval(this.timer);
+                this.timer = null;
             },
             startSm() {
+                clearInterval(this.timer);
                 this.timer = setInterval(() => {
                     this.$refs.page.api.moveSlideRight();
                 }, 3000);
@@ -158,36 +175,47 @@ import leftMenu from "../menu/leftMenu";
 	    render(createElement) {
 		    return (
 		        <div>
-			        <nav id="fullPageMenu" class="container-fluid">
-				        <top-menu menu={this.menu}></top-menu>
-				    </nav>
-			        <left-menu menu={this.menu}></left-menu>
-				    <full-page class="fullpage" options={this.options} ref="page">
-					    {
-						    this.options.anchors.map(i => {
-						        return (
-						            <div class="section">
-						                {
-						                    createElement(`slid${i}`, {
-						                        props: {
-						                            page: this.page,
-						                            active: this.active
-						                        }
-						                    })
-						                }
-						            </div>
-						        )
-						    })
-					    }
-				    </full-page>
-			    </div>
+                    <waiting-to-load waiting={this.waiting}></waiting-to-load>
+                    <div>
+                        <fluid-vue></fluid-vue>
+                        <nav id="fullPageMenu" class="container-fluid">
+                            <top-menu menu={this.menu} urlHref={this.urlHref}></top-menu>
+                        </nav>
+                        <left-menu menu={this.menu} urlHref={this.urlHref}></left-menu>
+                        <full-page class="fullpage" options={this.options} ref="page">
+                            {
+                                this.options.anchors.map(i => {
+                                    return (
+                                        <div class="section">
+                                            {
+                                                createElement(`slid${i}`, {
+                                                    props: {
+                                                        page: this.page,
+                                                        active: this.active,
+                                                        btnImg: this.btnImg,
+                                                        hashUrl: this.hashUrl,
+                                                        hashUrl3: this.hashUrl3
+                                                    }
+                                                })
+                                            }
+                                        </div>
+                                    )
+
+                                })
+                            }
+                        </full-page>
+                    </div>
+                </div>
 	        )
 	    },
     }
 </script>
 
 <style lang="scss">
-
+    .leftColor {
+        background: #347fe8;
+        color: #ffffff !important;
+    }
 
 
 </style>

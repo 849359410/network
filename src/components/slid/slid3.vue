@@ -32,7 +32,7 @@
 			</div>
 			<div class="three_bottom">
 				<div>
-					<p v-html="btnImg[hashUrl].text"></p>
+					<p v-html="btnImg3[hashUrl3].text"></p>
 				</div>
 				<button class="bottom_btn" @click="down()">
 					<p>根据您的需求，为您量身定制</p>
@@ -46,6 +46,20 @@
 import { Bus } from "../../main";
 export default {
 	name: "slid3",
+	props: {
+		slid3Url: {
+			type: Number,
+			default() {
+				return 0
+			}
+		},
+		hashUrl3: {
+			type: Number,
+			default() {
+				return 0;
+			}
+		}
+	},
 	data() {
 		return {
 			slid: [
@@ -70,7 +84,7 @@ export default {
 					btn: "杀率/赔率自定义"
 				},
 			],
-			btnImg: [
+			btnImg3: [
 				{
 					text: `<p>囊括时下各类热门彩种，自主研发<b>秒开彩种<br></b>24小时不间断随买随开，让您畅玩游戏无需等待</p>`
 				},
@@ -86,14 +100,15 @@ export default {
 				{
 					text: `<p>完美开发自主彩秒开系列，24小时不间断随买随开，让<br>您畅玩游戏无需等待</p>`
 				}
-			],
-			hashUrl: 0
+			]
 		}
+	},
+	destroyed() {
+		console.log(111)
 	},
 	methods: {
 		changeImg(i) {
 			Bus.$emit("slid3", i);
-			console.log(i)
 		},
 		stopSm() {
 			Bus.$emit("stopSm")
@@ -204,9 +219,5 @@ export default {
 			}
 		}
 	}
-}
-.leftColor {
-	background: #347fe8;
-	color: #ffffff !important;
 }
 </style>
