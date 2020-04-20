@@ -1,41 +1,40 @@
 <template>
-    <div class="myMenu" :class="returnClass(urlHref)">
+    <div class="myMenu">
         <ul>
-            <li v-for="(item, index) in menu[2]" :key="index" :data-menuanchor="item.dataMenuanchor">
-                <a :href="item.href">{{ item.value }}</a>
+            <li
+                v-for="(item, index) in menu[2]"
+                :key="index"
+                :data-menuanchor="item.dataMenuanchor"
+            >
+                <a
+                    :href="item.href"
+                    :class="returnClass(urlHref)"
+                    :style=" item.dataMenuanchor === urlHref ? 'color:rgb(23, 83, 214)' : ''"
+                >
+                    {{ item.value }}
+                </a>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-import {Bus} from "@/main";
 
 export default {
     name: "leftMenu",
     props: {
-	    urlHref: {
-		    type: Number,
-		    default() {
-			    return 1;
-		    }
-	    },
         menu: {
             type: Array,
             default() {
                 return [];
             }
-        }
-    },
-    watch: {
-        menu: {
-            handler(val) {
-                console.log(val)
+        },
+        urlHref: {
+            type: [Number, String],
+            default() {
+                return [];
             }
         }
-    },
-    created() {
-        Bus.$emit("loction");
     },
     methods: {
         returnClass(page) {
@@ -57,10 +56,17 @@ export default {
         color: #1753d6;
         ul {
             list-style: none;
-            li a {
+             a {
                 line-height: 30px;
                 color: #fff;
             }
+            .colorWhite {
+                color: #fff;
+            }
+            .colorBlue {
+                color: black;
+            }
         }
+
     }
 </style>

@@ -1,8 +1,8 @@
 <template>
     <div class="box1">
         <video :src="page[0].video" muted="muted" autoplay="autoplay" loop="loop" data-keepplaying></video>
-        <div class="slide animated zoomIn">
-            <img class="img1" :src="page[0].img1" alt="">
+        <div class="slide">
+            <img ref="slid1img1" class="img1" :src="page[0].img1" alt="">
         </div>
         <div class="slide">
             <img class="img2" :src="page[0].img2"  alt=""/>
@@ -15,7 +15,7 @@
                 </a>
             </div>
             <div class="woman">
-                <img :src="page[0].woman" alt="">
+                <img :src="page[0].woman">
             </div>
         </div>
         <a href="javascript:;"><img @click="pageDown" class="downBtn" :src="page[0].downBtn" alt=""></a>
@@ -28,6 +28,7 @@
 
 <script>
 import { Bus } from "../../main";
+import "@/assets/css/fullpage.min.css";
 export default {
     name: "slid1",
     props: {
@@ -134,7 +135,7 @@ export default {
         left: 50%;
         margin-left: -110px;
         display: flex;
-        z-index: 99999;
+        z-index: 1;
         li {
             cursor: pointer;
             list-style: none;
